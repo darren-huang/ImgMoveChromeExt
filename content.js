@@ -16,7 +16,7 @@ function printObj(obj) {
 
 function document_fiddle(node){
 	if (node.localName == "img" && node.attributes.indexOf("sidebysided") < 0) {
-		printObj(node);
+		// printObj(node);
 
 		//get src
 		var srcMinOne = node.attributes.indexOf("src");
@@ -35,9 +35,12 @@ function document_fiddle(node){
 		match.setAttribute("sidebysided", true);
 		clone.setAttribute("sidebysided", true);
 		//put elements side-by-side
-		match_cont.setAttribute("style", "display: flex; flex-shrink: 0; flex-grow: 0");
+		match_cont.setAttribute("style", "display: flex; flex-shrink: 0; flex-grow: 0; align-items: center; justify-content: center");
 		match.setAttribute("style", "flex: 50%; padding: 0px; align-self: center");
 		clone.setAttribute("style", "flex: 50%; padding: 0px; align-self: center");
+
+		console.log("width", "" + match_cont.getAttribute("width"));
+		console.log("width-max", "" + match_cont.getAttribute("width-max"));
 	} else {
 		console.log("invalid selection");
 	}
