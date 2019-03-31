@@ -1,6 +1,6 @@
 {
     "name": "Manga Reader Img Side-by-Side",
-    "version": "0.1",
+    "version": "1.0",
     "description": "For websites like readonepiece.com, select two images to display side by side",
     "permissions": ["activeTab", "tabs", "background", "debugger", "declarativeContent", "storage"],
     "background": {
