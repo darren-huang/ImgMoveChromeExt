@@ -66,20 +66,11 @@ function signalTab(node) {
 
 //Get Node Selection
 function debuggerCallback(source, method, params) {
-	// console.log(method) // print method name
 	if (method == "Overlay.inspectNodeRequested") {
 		var backId = params.backendNodeId;
 		chrome.debugger.sendCommand(source, "DOM.describeNode", {backendNodeId: backId}, 
 		function(result) {
-			// console.log("" + result.node); // Edit the file!!!????
-			var propValue;
-			for(var propName in result.node) {
-			    propValue = result.node[propName]
-
-			    console.log(propName, propValue);
-			}
-
-			signalTab(result.node);
+			signalTab(result.node); // send message to content.js
 			chrome.debugger.detach(source);
 			chrome.storage.sync.set({valid_id: false, tab_id: null});
 		});
@@ -90,7 +81,6 @@ function debuggerCallback(source, method, params) {
 function setCommands(givenTabId){
 	// Escape from inspection mode.
 	chrome.commands.onCommand.addListener(function (command) {
-		console.log(command);
 	    if (command == "exit_inspection_mode") {
 	        detach_if_possible();
 	    } else if (command == "enter_inspection_mode") {
@@ -103,9 +93,7 @@ function setCommands(givenTabId){
 
 //Init variables and Page Actions
 chrome.runtime.onInstalled.addListener(function() {
-    chrome.storage.sync.set({color: '#3aa757', valid_id: false, tab_id: null}, function() {
-      	console.log("The color is green.");
-    });
+    chrome.storage.sync.set({color: '#3aa757', valid_id: false, tab_id: null});
     chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
 		chrome.declarativeContent.onPageChanged.addRules([{
 			conditions: [new chrome.declarativeContent.PageStateMatcher({

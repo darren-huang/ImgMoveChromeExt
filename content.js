@@ -15,7 +15,6 @@ function printObj(obj) {
 }
 
 function document_fiddle(node){
-	console.log("\n inside docu-fiddle")
 	if (node.localName == "img" && node.attributes.indexOf("sidebysided") < 0) {
 		printObj(node);
 
@@ -39,8 +38,6 @@ function document_fiddle(node){
 		match_cont.setAttribute("style", "display: flex; flex-shrink: 0; flex-grow: 0");
 		match.setAttribute("style", "flex: 50%; padding: 0px; align-self: center");
 		clone.setAttribute("style", "flex: 50%; padding: 0px; align-self: center");
-		
-		console.log(newStr);
 	} else {
 		console.log("invalid selection");
 	}
@@ -49,11 +46,7 @@ function document_fiddle(node){
 // Listen for messages
 chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
     // If the received message has the expected format...
-    console.log("got message");
     if (msg.hasOwnProperty('backendNodeId')) {
-    	console.log("message correct format!");
-        // Call the specified callback, passing
-        // the web-page's DOM content as argument
-        document_fiddle(msg);
+        document_fiddle(msg); // modify the document
     }
 });
