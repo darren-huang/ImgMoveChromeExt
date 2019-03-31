@@ -6,10 +6,10 @@
 
 
 const HIGHLIGHT_COLOR = {
-  r: 155,
-  g: 11,
-  b: 239,
-  a: 0.7
+  r: 95,
+  g: 208,
+  b: 255,
+  a: 0.5
 };
 
 function doInCurrentTab(tabCallback) {
@@ -59,12 +59,12 @@ chrome.storage.sync.get('color', function(data) {
 // button click event
 changeColor.onclick = function(element) {
 	// change background color
-    let color = element.target.value;
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      chrome.tabs.executeScript(
-          tabs[0].id,
-          {code: 'document.body.style.backgroundColor = "' + color + '";'});
-    });
+    // let color = element.target.value;
+    // chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+    //   chrome.tabs.executeScript(
+    //       tabs[0].id,
+    //       {code: 'document.body.style.backgroundColor = "' + color + '";'});
+    // });
 
     // attach debugger
 	doInCurrentTab(inspectorSelectNode);

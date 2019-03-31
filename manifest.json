@@ -7,6 +7,10 @@
       "scripts": ["background.js"],
       "persistent": true
     },
+    "content_scripts" : [{
+			"matches": ["*://*.readonepiece.com/*"],
+			"js": ["content.js"]
+		}],
     "page_action": {
       "default_popup": "popup.html",
 	  "default_icon": {
@@ -25,9 +29,15 @@
     "commands": {
 	    "exit_inspection_mode" : {
 	        "suggested_key": {
-	             "default": "Ctrl+Q" 
+	             "default": "Alt+Q" 
 	        },
 	        "description": "exit_inspection_mode"
+	    },
+	    "enter_inspection_mode" : {
+	        "suggested_key": {
+	             "default": "Alt+W" 
+	        },
+	        "description": "enter_inspection_mode"
 	    }
 	},
     "manifest_version": 2
