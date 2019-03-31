@@ -54,15 +54,17 @@ function detach_if_possible() {
 	});
 }
 /////////////////////////////above just copied from popup.js///////////////////////////////////////
-function signalTab(node) {
+
+var signal = "dup"// either "undo" or "dup"
+
+//Send Message to content.js
+function sendSignalToTab(toSendNode) {
 	chrome.storage.sync.get(['valid_id','tab_id'], function(data) {
 		if (data.valid_id) {
-			chrome.tabs.sendMessage(data.tab_id, node);
+			chrome.tabs.sendMessage(data.tab_id, {node: toSendNode, command: signal});
 		}
 	});
 }
-
-
 
 //Get Node Selection
 function debuggerCallback(source, method, params) {
@@ -70,7 +72,7 @@ function debuggerCallback(source, method, params) {
 		var backId = params.backendNodeId;
 		chrome.debugger.sendCommand(source, "DOM.describeNode", {backendNodeId: backId}, 
 		function(result) {
-			signalTab(result.node); // send message to content.js
+			sendSignalToTab(result.node); // send message to content.js
 			chrome.debugger.detach(source);
 			chrome.storage.sync.set({valid_id: false, tab_id: null});
 		});
@@ -84,6 +86,12 @@ function setCommands(givenTabId){
 	    if (command == "exit_inspection_mode") {
 	        detach_if_possible();
 	    } else if (command == "enter_inspection_mode") {
+	    	signal = "dup";
+	    	doInCurrentTab(function(tab) {
+	    		if (tab.url.includes(url_substring)) { inspectorSelectNode(tab) };
+	    	});
+	    } else if (command == "enter_undo_mode") {
+	    	signal = "undo";
 	    	doInCurrentTab(function(tab) {
 	    		if (tab.url.includes(url_substring)) { inspectorSelectNode(tab) };
 	    	});

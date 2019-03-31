@@ -6,8 +6,9 @@ allows for easy viewing of those pages!
 
 # How to use:
 1. go to https://ww4.readonepiece.com/ and pick a chapter
-1. press `Alt+W` to activate the page picker (press `Alt+Q` to exit out of this mode) or alternatively you can click the extention icon on the top right
+1. press `Alt+W` to activate the page picker (press `Alt+Q` to exit out of this mode)
 1. click on the page you would like to be viewed side-by-side with the next page
+1. press `Alt+Z` to activate the undo picker, where you select a side-by-side image to revert to the original state
 
 This made use of Chrome's debugging api, allowing for very intuitive page selection~~~
 

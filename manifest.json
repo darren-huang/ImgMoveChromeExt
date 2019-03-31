@@ -38,6 +38,12 @@
 	             "default": "Alt+W" 
 	        },
 	        "description": "enter_inspection_mode"
+	    },
+	    "enter_undo_mode" : {
+	        "suggested_key": {
+	             "default": "Alt+Z" 
+	        },
+	        "description": "enter_undo_mode"
 	    }
 	},
     "manifest_version": 2
