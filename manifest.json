@@ -1,0 +1,34 @@
+{
+    "name": "Manga Reader Img Side-by-Side",
+    "version": "0.1",
+    "description": "For websites like readonepiece.com, select two images to display side by side",
+    "permissions": ["activeTab", "tabs", "background", "debugger", "declarativeContent", "storage"],
+    "background": {
+      "scripts": ["background.js"],
+      "persistent": true
+    },
+    "page_action": {
+      "default_popup": "popup.html",
+	  "default_icon": {
+	        "16": "images/get_started16.png",
+	        "32": "images/get_started32.png",
+	        "48": "images/get_started48.png",
+	        "128": "images/get_started128.png"
+	      }
+    },
+    "icons": {
+      "16": "images/get_started16.png",
+      "32": "images/get_started32.png",
+      "48": "images/get_started48.png",
+      "128": "images/get_started128.png"
+    },
+    "commands": {
+	    "exit_inspection_mode" : {
+	        "suggested_key": {
+	             "default": "Ctrl+Q" 
+	        },
+	        "description": "exit_inspection_mode"
+	    }
+	},
+    "manifest_version": 2
+  }
