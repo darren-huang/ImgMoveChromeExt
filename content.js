@@ -50,7 +50,8 @@ function document_fiddle(node){
 			console.log("page to clone doesn't exist");
 		}
 	} else {
-		console.log("invalid selection");
+		console.log("invalid fiddle, will try to unfiddle");
+		document_unfiddle(node);
 	}
 }
 
