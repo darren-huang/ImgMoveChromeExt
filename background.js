@@ -44,12 +44,14 @@ function inspectorSelectNode(tab) {
 	});
 }
 
-function detach_if_possible() {
+function detach_if_possible(elsefunc = function(){}) {
 	console.log("trying_to_detach");
 	chrome.storage.sync.get(['valid_id','tab_id'], function(data) {
 		if (data.valid_id) {
 			chrome.debugger.detach({tabId: data.tab_id});
 			chrome.storage.sync.set({valid_id: false, tab_id: null});
+		} else {
+			elsefunc();
 		}
 	});
 }
@@ -66,16 +68,27 @@ function sendSignalToTab(toSendNode) {
 	});
 }
 
+//debuggerDetachCallback
+function debuggerDetachCallback(source, reason) {
+	if (source.hasOwnProperty("tabId")) {
+		chrome.storage.sync.get(['valid_id','tab_id'], function(data) {
+			if (data.valid_id && data.tab_id == source.tabId) {
+				chrome.storage.sync.set({valid_id: false, tab_id: null});
+			}
+		});
+	}
+}
+
 //Get Node Selection
 function debuggerCallback(source, method, params) {
 	if (method == "Overlay.inspectNodeRequested") {
 		var backId = params.backendNodeId;
 		chrome.debugger.sendCommand(source, "DOM.describeNode", {backendNodeId: backId}, 
-		function(result) {
-			sendSignalToTab(result.node); // send message to content.js
-			chrome.debugger.detach(source);
-			chrome.storage.sync.set({valid_id: false, tab_id: null});
-		});
+			function(result) {
+				sendSignalToTab(result.node); // send message to content.js
+				chrome.debugger.detach(source);
+				chrome.storage.sync.set({valid_id: false, tab_id: null});
+			});
 	}
 }
 
@@ -87,9 +100,11 @@ function setCommands(givenTabId){
 	        detach_if_possible();
 	    } else if (command == "enter_inspection_mode") {
 	    	signal = "dup";
-	    	doInCurrentTab(function(tab) {
-	    		if (tab.url.includes(url_substring)) { inspectorSelectNode(tab) };
-	    	});
+	    	detach_if_possible(function (){
+	    		doInCurrentTab(function(tab) {
+		    		if (tab.url.includes(url_substring)) { inspectorSelectNode(tab) };
+		    	});
+	    	})
 	    } else if (command == "enter_undo_mode") {
 	    	signal = "undo";
 	    	doInCurrentTab(function(tab) {
@@ -110,6 +125,9 @@ chrome.runtime.onInstalled.addListener(function() {
 		}]);
     });
   });
+
+//If user manually detaches debugger
+chrome.debugger.onDetach.addListener(debuggerDetachCallback);
 
 //Setup tab switching
 chrome.tabs.onActivated.addListener(function(activeInfo) {
