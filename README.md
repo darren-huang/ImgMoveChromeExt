@@ -6,7 +6,7 @@ allows for easy viewing of those pages!
 
 # How to use:
 1. go to chrome://extensions allow developer mode, then `Load unpacked` and select the folder of the repo
-1. go to chrome://extensions/shortcuts and make sure enter_inspection_mode is Alt+W
+1. go to chrome://extensions/shortcuts and make sure `enter_inspection_mode` is `Alt+W` // `enter_undo_mode` is `Alt+Z` // `exit_inspection_mode` is `Alt+Q`
 1. go to https://ww4.readonepiece.com/ and pick a chapter
 1. press `Alt+W` to activate the page picker (press `Alt+Q` or `Alt+W` again to exit out of this mode)
 1. click on the page you would like to be viewed side-by-side with the next page
